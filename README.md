@@ -1,2 +1,2 @@
 # get_next_line
-Project 42 School Porto 
+'Reading a line from a fd is way too tedious'. Project is part of the course of 42 school.
