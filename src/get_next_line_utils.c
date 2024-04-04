@@ -6,7 +6,7 @@
 /*   By: josejunior <josejunior@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 22:20:14 by josejunior        #+#    #+#             */
-/*   Updated: 2024/04/04 13:24:01 by josejunior       ###   ########.fr       */
+/*   Updated: 2024/04/04 19:44:07 by josejunior       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,70 +17,64 @@
 
 char	*ft_read_fd(int fd)
 {
-	char	*content;
-	ssize_t		r;
+	char		*content_fd;
+	ssize_t		size_fd;
 
-	content = NULL;
-	if (content == NULL && fd > 0)
+	if (fd < 0)
+		return (NULL);
+	content_fd = (char *) malloc(BUFFER_SIZE * sizeof(char) + 1);
+	if (!content_fd)
+		return (NULL);
+	size_fd = read(fd, content_fd, BUFFER_SIZE);
+	if (size_fd < 0)
 	{
-		content = (char *) malloc(BUFFER_SIZE * sizeof(char) + 1);
-		r = read(fd, content, BUFFER_SIZE);
-		if (r < 0 || content == NULL)
-		{
-			free(content);
-			return (NULL);
-		}
+		free(content_fd);
+		return (NULL);
 	}
-	return (content);
+	content_fd[size_fd] = '\0';
+	return (content_fd);
 }
 
-unsigned int	ft_strlen_line(const char *str)
+unsigned int	ft_line_len(const char *str)
 {
 	unsigned int	i;
-	char	*ptr_str;
+	char			*ptr_str;
 
 	i = 0;
 	ptr_str = (char *) str;
 	while (ptr_str[i] && ptr_str[i] != '\n')
-	{
 		i++;
-	}
 	return (i);
-}
-
-char	*ft_strdup(char *src)
-{
-	char	*str;
-	int		i;
-
-	i = 0;
-	str = (char *) malloc(ft_strlen_line(src) * sizeof(char) + 1);
-	if (str == NULL)
-		return (0);
-	while (src[i] != '\0' && src[i] != '\n')
-	{
-		str[i] = src[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
 }
 
 char	*ft_get_line(char *content)
 {
+	static char	*current_content;
 	char		*line;
 	int			i;
-	static int	size;
 
 	i = 0;
-	if (!size)
-		size = 0;
-	content += size;
-	if (content[i])
+	if (!current_content)
+		current_content = content;
+	if (current_content == NULL || *current_content == '\0')
+		return (NULL);
+	else
 	{
-		line = ft_strdup(content);
-		size += ft_strlen_line(content) + 1;
+		line = (char *) malloc(ft_line_len(current_content) * sizeof(char) + 1);
+		if (!line)
+		{
+			free(line);
+			return (NULL);
+		}
+		while (*current_content && *current_content != '\n')
+		{
+			line[i] = *current_content;
+			i++;
+			current_content++;
+		}
+		if (*current_content == '\n')
+			current_content++;
+		line[i] = '\0';
 		return (line);
 	}
-	return (NULL);
 }

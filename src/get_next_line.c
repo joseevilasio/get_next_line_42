@@ -6,7 +6,7 @@
 /*   By: josejunior <josejunior@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 19:09:27 by josejunior        #+#    #+#             */
-/*   Updated: 2024/04/04 12:09:12 by josejunior       ###   ########.fr       */
+/*   Updated: 2024/04/04 19:42:56 by josejunior       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,16 @@
 
 char	*get_next_line(int fd)
 {
-	char	*line;
-	char	*content;
+	char		*line;
+	static char	*content;
 
-	content = ft_read_fd(fd);
+	if (!content)
+		content = ft_read_fd(fd);
 	if (content)
 	{
 		line = ft_get_line(content);
-		free(content);
+		if (!line)
+			free(content);
 		return (line);
 	}
 	free(content);
