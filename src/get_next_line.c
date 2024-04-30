@@ -6,7 +6,7 @@
 /*   By: joneves- <joneves-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 23:25:01 by joneves-          #+#    #+#             */
-/*   Updated: 2024/04/28 23:38:52 by joneves-         ###   ########.fr       */
+/*   Updated: 2024/04/29 23:26:33 by joneves-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,31 @@
 
 char	*get_next_line(int fd)
 {
-	//BUFFER definido na linha de comando, se nao houver usar um padrao
-	char	*buffer; // armazena o que foi lido
-	size_t	size_buffer; //tamanho do que e para ser lido
-	size_t	size_read;
-	
-	size_buffer = 42;
-	size_read = 0;
-	buffer = NULL;
-	buffer = (char *) malloc(size_buffer * sizeof(char) + 1);
-	if (buffer) //se ocorrer bem
+	char	*line;
+	char	*buffer;
+	char	*end_line;
+	char *cache;
+	size_t	size;
+
+	line = "";
+	if (line)
 	{
-		size_read = read_line(fd, buffer, size_buffer);
-		printf("\n[len=%ld]\n", size_read);
-		if (size_read == 0)
-			return (NULL);
-		return (buffer);
+		while (buffer)
+		{
+			buffer = ft_buffer(fd);
+			end_line = ft_strchr(buffer, '\n');
+			if (end_line)
+			{
+				size = ft_strlen(end_line);
+				cache = (char *) malloc(size * sizeof(char) + 1);
+				line = ft_strjoin(line, (buffer - size));
+				return (line);
+			}
+			else if (buffer)
+				line = ft_strjoin(line, buffer);
+		}
+		return (line);
 	}
 	return (NULL);
 }
+

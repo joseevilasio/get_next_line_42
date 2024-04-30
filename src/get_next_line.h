@@ -6,7 +6,7 @@
 /*   By: joneves- <joneves-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 23:21:35 by joneves-          #+#    #+#             */
-/*   Updated: 2024/04/28 23:32:55 by joneves-         ###   ########.fr       */
+/*   Updated: 2024/04/29 19:30:08 by joneves-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@
 NULL: there is nothing else to read, or an error
 occurred */
 char	*get_next_line(int fd);
-size_t	read_line(int fd, char *buffer, size_t size_buffer);
+char    *ft_buffer(int fd);
+unsigned int	ft_line(int fd, char *line);
+char	*ft_strchr(char *s, int c);
+size_t	ft_strlcpy(char *dest, const char *src, size_t size);
+char	*ft_strjoin(char const *s1, char const *s2);
+int	ft_strlen(char *str);
 
 #endif //GET_NEXT_LINE_H
