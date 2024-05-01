@@ -6,35 +6,11 @@
 /*   By: joneves- <joneves-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 23:00:59 by joneves-          #+#    #+#             */
-/*   Updated: 2024/04/29 23:21:54 by joneves-         ###   ########.fr       */
+/*   Updated: 2024/05/01 01:01:58 by joneves-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 42
-#endif //BUFFER_SIZE
-
-char	*ft_buffer(int fd)
-{
-	size_t	size_read;
-	char	*buffer;
-
-	buffer = NULL;
-	buffer = (char *) malloc(BUFFER_SIZE * sizeof(char) + 1);
-	if (buffer)
-	{
-		size_read = 0;
-		size_read = read(fd, buffer, BUFFER_SIZE);
-		if (size_read > 0)
-		{
-			buffer[size_read] = '\0';
-			return (buffer);
-		}
-		free(buffer);
-	}
-	return (NULL);
-}
 
 char	*ft_strchr(char *s, int c)
 {
@@ -75,6 +51,8 @@ int	ft_strlen(char *str)
 	int	i;
 
 	i = 0;
+	if (!str)
+		return (0);
 	while (str[i] != '\0')
 		i++;
 	return (i);
@@ -103,21 +81,31 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (NULL);
 }
 
-// unsigned int	ft_line(int fd, char *line)
-// {
-// 	char			*buffer;
-// 	// unsigned int	newline;
-	
-// 	// newline = 0;
-// 	if (line)
-// 	{
-// 		while (buffer)
-// 		{
-// 			buffer = ft_buffer(fd);
-// 			if (buffer)
-// 				line = ft_strjoin(line, buffer);
-// 		}
-// 		return (1);
-// 	}
-// 	return (0);
-// }
+char	*ft_putcache(char *buffer, char *cache, char *content, int read_size)
+{
+	char	*line;
+	int		i;
+	int		size;
+
+	size = 0;
+	if (buffer)
+	{
+		while (buffer[size] && buffer[size] != '\n')
+			size++;
+		i = 0;
+		line = (char *) malloc(size * sizeof(char) + 1);
+		if (line)
+		{
+			while (buffer[i] && buffer[i] != '\n')
+			{
+				line[i] = buffer[i];
+				i++;
+			}
+			if (buffer[i] == '\n')
+				line[i++] = '\n';
+			line[i] = '\0';
+			return (line);
+		}
+	}
+	return (NULL);
+}

@@ -6,39 +6,38 @@
 /*   By: joneves- <joneves-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 23:25:01 by joneves-          #+#    #+#             */
-/*   Updated: 2024/04/29 23:26:33 by joneves-         ###   ########.fr       */
+/*   Updated: 2024/05/01 01:02:32 by joneves-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 1
+#endif //BUFFER_SIZE
 #include "get_next_line.h"
 
 char	*get_next_line(int fd)
 {
-	char	*line;
-	char	*buffer;
-	char	*end_line;
-	char *cache;
-	size_t	size;
+	int			read_size;
+	char		*buffer;
+	char		*content;
+	static char	*cache;
 
-	line = "";
-	if (line)
+	read_size = 1;
+	buffer = "";
+	cache = NULL;
+	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE > INT_MAX || read(fd, &content, 0) < 0)
+		return (NULL);
+	content = (char *) malloc(BUFFER_SIZE * sizeof(char) + 1);
+	if (!content)
+		return (NULL);
+	while (!ft_strchr(content, '\n') && read_size != 0)
 	{
-		while (buffer)
-		{
-			buffer = ft_buffer(fd);
-			end_line = ft_strchr(buffer, '\n');
-			if (end_line)
-			{
-				size = ft_strlen(end_line);
-				cache = (char *) malloc(size * sizeof(char) + 1);
-				line = ft_strjoin(line, (buffer - size));
-				return (line);
-			}
-			else if (buffer)
-				line = ft_strjoin(line, buffer);
-		}
-		return (line);
+		if (cache)
+			buffer = ft_strjoin(buffer, cache);
+		read_size = read(fd, content, BUFFER_SIZE);
+		content[read_size] = '\0';
+		buffer = ft_strjoin(buffer, content);
 	}
-	return (NULL);
+	buffer = ft_putcache(buffer, cache, content, read_size);
+	return (buffer);
 }
-
