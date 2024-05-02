@@ -6,7 +6,7 @@
 /*   By: joneves- <joneves-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 23:00:59 by joneves-          #+#    #+#             */
-/*   Updated: 2024/05/01 01:01:58 by joneves-         ###   ########.fr       */
+/*   Updated: 2024/05/01 23:33:06 by joneves-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,12 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 	return (i);
 }
 
-int	ft_strlen(char *str)
+size_t	ft_strlen(const char *str)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
-	if (!str)
-		return (0);
-	while (str[i] != '\0')
+	while (str[i])
 		i++;
 	return (i);
 }
@@ -81,31 +79,20 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (NULL);
 }
 
-char	*ft_putcache(char *buffer, char *cache, char *content, int read_size)
+char	*ft_strdup(const char *src)
 {
-	char	*line;
+	char	*str;
 	int		i;
-	int		size;
 
-	size = 0;
-	if (buffer)
+	i = 0;
+	str = (char *) malloc(ft_strlen(src) * sizeof(char) + 1);
+	if (!str)
+		return (0);
+	while (src[i])
 	{
-		while (buffer[size] && buffer[size] != '\n')
-			size++;
-		i = 0;
-		line = (char *) malloc(size * sizeof(char) + 1);
-		if (line)
-		{
-			while (buffer[i] && buffer[i] != '\n')
-			{
-				line[i] = buffer[i];
-				i++;
-			}
-			if (buffer[i] == '\n')
-				line[i++] = '\n';
-			line[i] = '\0';
-			return (line);
-		}
+		str[i] = src[i];
+		i++;
 	}
-	return (NULL);
+	str[i] = '\0';
+	return (str);
 }

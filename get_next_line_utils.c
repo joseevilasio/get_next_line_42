@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josejunior <josejunior@student.42.fr>      +#+  +:+       +#+        */
+/*   By: joneves- <joneves-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 22:20:14 by josejunior        #+#    #+#             */
-/*   Updated: 2024/04/05 19:37:36 by josejunior       ###   ########.fr       */
+/*   Updated: 2024/04/30 21:04:19 by joneves-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,4 +103,3 @@ char	*ft_get_line(char *content)
 	else
 		current_content += size;
 	return (line);
-}
