@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: joneves- <joneves-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/02 19:29:01 by josejunior        #+#    #+#             */
-/*   Updated: 2024/05/01 23:09:03 by joneves-         ###   ########.fr       */
+/*   Created: 2024/05/03 12:37:19 by joneves-          #+#    #+#             */
+/*   Updated: 2024/05/03 12:37:22 by joneves-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,21 @@ int	main(void)
 	char	*file;
 	char	*line;
 
-	file = "/home/josejunior/get_next_line_42/43_with_nl";
+	file = "./43_with_nl";
 	fd = open(file, O_RDONLY);
 	i = 0;
-	printf("[MAIN BUFFER SIZE = %d]", BUFFER_SIZE);
-	printf("fd ->%d\n", fd);
+	printf("[MAIN BUFFER SIZE = %d]\n", BUFFER_SIZE);
 	if (fd > 0)
 	{
+		line = get_next_line(fd);
 		while (line)
 		{
-			line = get_next_line(fd);
-			if (!line)
-			{
-				free(line);
-				break;
-			}
 			i++;
 			printf("[line - %d]%s", i, line);
 			free(line);
+			line = get_next_line(fd);
 		}
+		free(line);
 	}
 	close(fd);
 	return (0);

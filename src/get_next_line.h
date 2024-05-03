@@ -6,21 +6,20 @@
 /*   By: joneves- <joneves-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 23:21:35 by joneves-          #+#    #+#             */
-/*   Updated: 2024/05/01 23:33:14 by joneves-         ###   ########.fr       */
+/*   Updated: 2024/05/03 13:54:18 by joneves-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 42
-#endif //BUFFER_SIZE
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
-# include <limits.h>
 
 /* Read line: correct behavior
 NULL: there is nothing else to read, or an error
