@@ -1,44 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main1.c                                            :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joneves- <joneves-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/03 12:37:19 by joneves-          #+#    #+#             */
-/*   Updated: 2024/05/03 12:37:22 by joneves-         ###   ########.fr       */
+/*   Created: 2024/04/16 19:03:04 by joneves-          #+#    #+#             */
+/*   Updated: 2024/04/21 21:21:28 by joneves-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "src/get_next_line.h"
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include "libft.h"
 
-int	main(void)
+int	ft_lstsize(t_list *lst)
 {
-	int		fd;
+	t_list	*start;
 	int		i;
-	char	*file;
-	char	*line;
 
-	file = "./43_with_nl";
-	fd = open(file, O_RDONLY);
 	i = 0;
-	printf("[MAIN BUFFER SIZE = %d]\n", BUFFER_SIZE);
-	if (fd > 0)
+	if (lst)
 	{
-		line = get_next_line(fd);
-		while (line)
+		i++;
+		start = lst->next;
+		while (start)
 		{
+			start = start->next;
 			i++;
-			printf("[line - %d]%s", i, line);
-			free(line);
-			line = get_next_line(fd);
 		}
-		free(line);
 	}
-	close(fd);
-	return (0);
+	return (i);
 }

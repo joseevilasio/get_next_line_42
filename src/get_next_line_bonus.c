@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joneves- <joneves-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 23:25:01 by joneves-          #+#    #+#             */
-/*   Updated: 2024/05/04 10:25:32 by joneves-         ###   ########.fr       */
+/*   Updated: 2024/05/04 10:40:57 by joneves-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*merge(char *s1, char *s2)
 {
@@ -103,10 +103,10 @@ char	*get_next_line(int fd)
 {
 	char		*content;
 	char		*buffer;
-	static char	*cache;
+	static char	*cache[OPENFD_MAX];
 
-	if (!cache)
-		cache = NULL;
+	if (!cache[fd])
+		cache[fd] = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = (char *) malloc((BUFFER_SIZE + 1) * sizeof(char));
@@ -120,9 +120,9 @@ char	*get_next_line(int fd)
 		return (NULL);
 	}
 	*content = 0;
-	content = read_fd(fd, cache, buffer, content);
+	content = read_fd(fd, cache[fd], buffer, content);
 	if (!content)
 		return (NULL);
-	cache = putcache(content);
-	return (putline(content, cache));
+	cache[fd] = putcache(content);
+	return (putline(content, cache[fd]));
 }

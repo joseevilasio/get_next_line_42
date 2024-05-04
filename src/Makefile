@@ -1,4 +1,4 @@
-.PHONY: all $(NAME) clean fclean re
+.PHONY: all $(NAME) clean fclean re bonus
 
 NAME := get_next_line.a
 
@@ -14,14 +14,14 @@ CFLAGS := -Wall -Wextra -Werror -g
 
 all:	$(NAME)
 
-# $(OBJS): $(SRCS)
-# 	$(CC) $(CFLAGS) -c $*.c -o $@
-
-run:
+$(NAME):
 	$(CC) $(CFLAGS) -c get_next_line.c -o get_next_line.o
 	$(CC) $(CFLAGS) -c get_next_line_utils.c -o get_next_line_utils.o
+	$(AR) $(NAME) ./*.o
 
-$(NAME): run
+bonus:
+	$(CC) $(CFLAGS) -c get_next_line_bonus.c -o get_next_line_bonus.o
+	$(CC) $(CFLAGS) -c get_next_line_utils_bonus.c -o get_next_line_utils_bonus.o
 	$(AR) $(NAME) ./*.o
 
 clean:

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joneves- <joneves-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 23:21:35 by joneves-          #+#    #+#             */
-/*   Updated: 2024/05/04 10:25:08 by joneves-         ###   ########.fr       */
+/*   Updated: 2024/05/04 18:06:53 by joneves-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,11 @@
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 100
-# endif
+# endif //BUFFER_SIZE
+
+# ifndef OPENFD_MAX
+#  define OPENFD_MAX 1024
+# endif //OPENFD_MAX
 
 # include <unistd.h>
 # include <stdlib.h>
