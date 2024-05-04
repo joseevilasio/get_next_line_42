@@ -4,7 +4,7 @@ GNL := get_next_line.a
 
 LIBFT = libft.a
 
-SIZE = 42
+SIZE = 1
 
 CC := cc
 
@@ -29,5 +29,10 @@ fclean:
 
 run: $(GNL) $(LIBFT)
 	@$(CC) $(CFLAGS) -DBUFFER_SIZE=$(SIZE) main.c -o main ./../src/$(GNL) ./../libft/$(LIBFT)
+	@valgrind -q --leak-check=full --track-origins=yes ./main
+	@make fclean
+
+run_v: $(GNL) $(LIBFT)
+	@$(CC) $(CFLAGS) -DBUFFER_SIZE=$(SIZE) -DVERBOSE=1 main.c -o main ./../src/$(GNL) ./../libft/$(LIBFT)
 	@valgrind -q --leak-check=full --track-origins=yes ./main
 	@make fclean
