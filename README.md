@@ -6,8 +6,11 @@ To compile the library, simply use the makefile targets on the command line with
 ```
 ./src/make re
 ```
+```
+./src/make bonus
+```
 ## Tests
-My tests.
+My tests. Libft is needed to compile the tests.
 ```
 ./tests/make run
 ```
