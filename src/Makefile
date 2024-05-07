@@ -8,10 +8,6 @@ AR := ar rcs
 
 CFLAGS := -Wall -Wextra -Werror -g
 
-# SRCS := get_next_line.c  get_next_line_utils.c \
-
-# OBJS := $(SRCS.c=.o)
-
 all:	$(NAME)
 
 $(NAME):
@@ -19,7 +15,7 @@ $(NAME):
 	$(CC) $(CFLAGS) -c get_next_line_utils.c -o get_next_line_utils.o
 	$(AR) $(NAME) ./*.o
 
-bonus:
+bonus: clean
 	$(CC) $(CFLAGS) -c get_next_line_bonus.c -o get_next_line_bonus.o
 	$(CC) $(CFLAGS) -c get_next_line_utils_bonus.c -o get_next_line_utils_bonus.o
 	$(AR) $(NAME) ./*.o

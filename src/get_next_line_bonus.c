@@ -6,7 +6,7 @@
 /*   By: joneves- <joneves-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 23:25:01 by joneves-          #+#    #+#             */
-/*   Updated: 2024/05/04 10:40:57 by joneves-         ###   ########.fr       */
+/*   Updated: 2024/05/07 19:48:59 by joneves-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,101 +28,98 @@ static char	*merge(char *s1, char *s2)
 	return (merge);
 }
 
-static char	*putcache(char *content)
+static char	*putcache(char *cache)
 {
-	char	*new_line;
 	char	*new_cache;
 
-	if (!content)
-		return (NULL);
-	new_line = ft_strchr(content, '\n');
-	if (!new_line)
-		return (NULL);
-	new_line++;
-	if (!*new_line)
-		return (NULL);
-	new_cache = ft_strdup(new_line);
-	if (!new_cache)
-		return (NULL);
-	return (new_cache);
-}
-
-static char	*putline(char *content, char *cache)
-{
-	char	*new_content;
-	size_t	size;
-
-	if (!content)
-		return (NULL);
-	if (!*content)
-	{
-		free(content);
-		return (NULL);
-	}
 	if (!cache)
-		return (content);
-	size = ft_strlen(content) - ft_strlen(cache);
-	new_content = (char *) malloc((size + 1) * sizeof(char));
-	if (!new_content)
+		return (NULL);
+	if (!ft_strchr(cache, '\n'))
 	{
-		free(content);
 		free(cache);
 		return (NULL);
 	}
-	ft_strlcpy(new_content, content, size + 1);
-	free(content);
-	return (new_content);
+	new_cache = ft_strdup(ft_strchr(cache, '\n') + 1);
+	if (!new_cache)
+	{
+		free(cache);
+		return (NULL);
+	}
+	free(cache);
+	return (new_cache);
 }
 
-static char	*read_fd(int fd, char *cache, char *buffer, char *content)
+static char	*putline(char *cache)
 {
-	int	read_size;
+	char	*line;
+	size_t	size;
+
+	if (!cache)
+		return (NULL);
+	if (!*cache)
+	{
+		free(cache);
+		return (NULL);
+	}
+	if (!ft_strchr(cache, '\n'))
+		size = ft_strlen(cache);
+	else
+		size = ft_strlen(cache) - ft_strlen(ft_strchr(cache, '\n') + 1);
+	line = (char *) malloc((size + 1) * sizeof(char));
+	if (!line)
+	{
+		free(cache);
+		return (NULL);
+	}
+	ft_strlcpy(line, cache, size + 1);
+	return (line);
+}
+
+static char	*read_fd(int fd, char *cache)
+{
+	char	*buffer;
+	int		read_size;
 
 	read_size = 1;
-	while (!ft_strchr(buffer, '\n') && read_size != 0)
-	{
-		if (cache)
-		{
-			content = merge(content, cache);
-			free(cache);
-			cache = NULL;
-		}
-		read_size = read(fd, buffer, BUFFER_SIZE);
-		if (read_size < 0)
-			break ;
-		buffer[read_size] = '\0';
-		content = merge(content, buffer);
-		if (!content)
-			return (NULL);
-	}
-	free(buffer);
-	return (content);
-}
-
-char	*get_next_line(int fd)
-{
-	char		*content;
-	char		*buffer;
-	static char	*cache[OPENFD_MAX];
-
-	if (!cache[fd])
-		cache[fd] = NULL;
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
 	buffer = (char *) malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
 		return (NULL);
 	*buffer = 0;
-	content = (char *) malloc(sizeof(char));
-	if (!content)
+	while (!ft_strchr(buffer, '\n') && read_size != 0)
 	{
-		free(buffer);
-		return (NULL);
+		read_size = read(fd, buffer, BUFFER_SIZE);
+		if (read_size < 0)
+		{
+			free(buffer);
+			free(cache);
+			return (NULL);
+		}
+		buffer[read_size] = '\0';
+		cache = merge(cache, buffer);
+		if (!cache)
+			return (NULL);
 	}
-	*content = 0;
-	content = read_fd(fd, cache[fd], buffer, content);
-	if (!content)
+	free(buffer);
+	return (cache);
+}
+
+char	*get_next_line(int fd)
+{
+	char		*line;
+	static char	*cache[OPENFD_MAX];
+
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	cache[fd] = putcache(content);
-	return (putline(content, cache[fd]));
+	if (!cache[fd])
+	{
+		cache[fd] = NULL;
+		cache[fd] = (char *) malloc(sizeof(char));
+		if (!cache[fd])
+			return (NULL);
+		*cache[fd] = 0;
+	}
+	cache[fd] = read_fd(fd, cache[fd]);
+	line = putline(cache[fd]);
+	cache[fd] = putcache(cache[fd]);
+	return (line);
 }
