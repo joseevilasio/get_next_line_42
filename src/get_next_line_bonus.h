@@ -6,15 +6,15 @@
 /*   By: joneves- <joneves-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 23:21:35 by joneves-          #+#    #+#             */
-/*   Updated: 2024/05/04 18:06:53 by joneves-         ###   ########.fr       */
+/*   Updated: 2024/05/07 19:49:31 by joneves-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 100
+#  define BUFFER_SIZE 42
 # endif //BUFFER_SIZE
 
 # ifndef OPENFD_MAX
